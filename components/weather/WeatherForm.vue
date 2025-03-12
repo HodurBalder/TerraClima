@@ -1,9 +1,7 @@
 <template>
     <div>
         <form @submit="onSubmit">
-
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-
                 <!-- Campo Proveedor -->
                 <FormField v-slot="{ componentField }" name="weatherProvider">
                     <FormItem>
@@ -66,7 +64,7 @@
             </div>
 
             <Button type="submit" class="mt-4 w-full" :disabled="isSubmitting">
-                <LoaderIcon v-if="isSubmitting" class="mr-2 h-4 w-4 animate-spin" />
+                <Loader2 v-if="isSubmitting" class="mr-2 h-4 w-4 animate-spin" />
                 {{ isSubmitting ? 'Consultando...' : 'Escanear el Clima' }}
             </Button>
         </form>
@@ -79,6 +77,7 @@
 import { ref, onMounted } from "vue";
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
+import { Loader2 } from 'lucide-vue-next'
 import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
@@ -90,6 +89,7 @@ import { useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
 import * as z from 'zod'
 
+import { WeatherServiceFactory } from '../server/services/weather/WeatherServiceFactory'
 
 const df = new DateFormatter("es-MX", { dateStyle: "long" });
 const isSubmitting = ref(false);
@@ -146,15 +146,18 @@ const updateDate = (newDate) => {
 }
 
 
-const onSubmit = form.handleSubmit( (values) => {
+const onSubmit = form.handleSubmit( async (values) => {
     console.log('Form enviado', values)
     isSubmitting.value = true;
     try {
-      
-        console.log('Success - datos del clima');
-      
+        const service = WeatherServiceFactory.createService(values.weatherProvider);
+        const weatherData = await service.getWeather(values.latitude, values.longitude, values.date);
+        console.log('Success - datos del clima', weatherData);
+        emit('weather-data', weatherData, values.weatherProvider);
+
 
     } catch (error) {
+        emit('weather-error', error.message || 'Error al obtener datos del clima');
         console.error('Error:', error.message);
         
     } finally {

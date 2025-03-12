@@ -2,6 +2,13 @@
 export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
   devtools: { enabled: true },
+  runtimeConfig: {
+    apiKeyWeatherApi: process.env.API_KEY_WEATHER_API,
+
+    public: {
+      apiKeyWeatherApi: process.env.API_KEY_WEATHER_API, 
+    },
+  },
   modules: [
     'shadcn-nuxt',
     '@nuxtjs/tailwindcss',
