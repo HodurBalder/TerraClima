@@ -69,7 +69,7 @@
             </Button>
         </form>
 
- 
+
     </div>
 </template>
 
@@ -146,7 +146,7 @@ const updateDate = (newDate) => {
 }
 
 
-const onSubmit = form.handleSubmit( async (values) => {
+const onSubmit = form.handleSubmit(async (values) => {
     console.log('Form enviado', values)
     isSubmitting.value = true;
     try {
@@ -159,7 +159,7 @@ const onSubmit = form.handleSubmit( async (values) => {
     } catch (error) {
         emit('weather-error', error.message || 'Error al obtener datos del clima');
         console.error('Error:', error.message);
-        
+
     } finally {
         isSubmitting.value = false;
     }

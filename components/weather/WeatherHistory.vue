@@ -1,9 +1,9 @@
 <template>
     <h3 class="text-xl font-semibold mb-4 text-center">Historial de Consultas</h3>
     <div class="full-page text-center">
-      <NuxtLink to="/terra-clima">
-        <Button class="w-50">Nueva Consulta</Button>
-      </NuxtLink>
+        <NuxtLink to="/terra-clima">
+            <Button class="w-50">Nueva Consulta</Button>
+        </NuxtLink>
     </div>
     <div class="weather-history">
         <div v-if="queries.length === 0" class="no-history">
@@ -35,7 +35,6 @@
                                 <span>{{ query.data.message }}</span>
                             </div>
 
-                            
                         </div>
                     </div>
 
@@ -59,15 +58,12 @@ import useWeatherStorage from '../composables/weather/useWeatherStorage';
 const { savedQueries, loadStoredQueries } = useWeatherStorage();
 const queries = ref([]);
 
-// Cargar consultas guardadas cuando el componente se monta
 onMounted(() => {
     queries.value = loadStoredQueries();
     console.log('queries', queries.value[0]);
 });
 
 
-
-// Función para emitir evento cuando se quiere cargar una consulta guardada
 const emit = defineEmits(['load-weather']);
 
 const loadWeatherData = (query) => {
@@ -75,15 +71,15 @@ const loadWeatherData = (query) => {
 };
 
 const formatDate = (value) => {
-  if (!value) return '';
+    if (!value) return '';
 
-  const date = new Date(value);
-  return date.toLocaleDateString('es-MX', {
-    weekday: 'long',
-    day: 'numeric',
-    month: 'long',
-    year: 'numeric'
-  });
+    const date = new Date(value);
+    return date.toLocaleDateString('es-MX', {
+        weekday: 'long',
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric'
+    });
 };
 </script>
 
