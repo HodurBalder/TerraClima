@@ -2,9 +2,23 @@
 
 Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
 
+📌 TerraClima - Nuxt App
+📖 Descripción
+
+Esta es una aplicación desarrollada con Nuxt, utilizando MongoDB como base de datos y otras tecnologías modernas para el backend y frontend.
+
+
+
 ## Setup
 
-Make sure to install dependencies:
+🚀 Instalación y configuración
+
+Sigue estos pasos para instalar y ejecutar el proyecto en tu entorno local.
+
+1️⃣ Clonar el repositorio
+
+git clone https://github.com/HodurBalder/TerraClima.git
+cd TerraClima
 
 ```bash
 # npm
@@ -19,6 +33,19 @@ yarn install
 # bun
 bun install
 ```
+
+
+
+ Configurar variables de entorno
+
+Crea un archivo .env en la raíz del proyecto y agrega las siguientes variables de entorno:
+# Configuración de MongoDB
+MONGODB_URI=mongodb+srv://usuario:contraseña@cluster.mongodb.net/miBaseDeDatos
+
+# Clave de API para el clima
+API_KEY_WEATHER=<TU_CLAVE_WEATHER_API>
+
+Nota: Asegúrate de reemplazar <TU_CLAVE_WEATHER_API> y la URL de MongoDB con tus valores reales.
 
 ## Development Server
 

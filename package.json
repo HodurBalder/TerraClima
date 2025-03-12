@@ -2,6 +2,7 @@
   "name": "nuxt-app",
   "private": true,
   "type": "module",
+  "author": "Adrian Rodriguez Mejia @Adrian.dev",
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
