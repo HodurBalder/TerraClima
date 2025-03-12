@@ -1,24 +1,11 @@
 import { WeatherService } from './WeatherService';
-import { useRuntimeConfig } from '#imports';
 
-export class WeatherAPIService implements WeatherService {
-  private apiKey: string;
-
-  constructor() {
-    // Cargar la API Key desde runtimeConfig
-    const config = useRuntimeConfig();
-    this.apiKey = config.public.apiKeyWeatherApi || '';
-
-    
-    if (!this.apiKey) {
-      console.log('config', config);
-      throw new Error('API Key de WeatherAPI no configurada.');
-    }
-  }
+export class OpenMeteoService implements WeatherService {
 
   async getWeather(latitude: number, longitude: number, date: string) {
-    console.log('getWeather', this.apiKey, latitude, longitude, date);
-    const url = `http://api.weatherapi.com/v1/history.json?key=${this.apiKey}&q=${latitude},${longitude}&dt=${date}`;
+    console.log('getWeather', latitude, longitude, date);
+    // Construir la URL de la API
+    const url = `http://archive-api.open-meteo.com/v1/archive?latitude=${latitude}&longitude=${longitude}&start_date=${date}&end_date=${date}&hourly=relative_humidity_2m`;
 
     try {
       const response = await fetch(url);
@@ -33,12 +20,13 @@ export class WeatherAPIService implements WeatherService {
         throw new Error(data.error.message || 'Error al obtener los datos del clima');
       }
 
-      const humidity = data.forecast.forecastday[0].day.avghumidity;
+      const humidity = data.hourly.relative_humidity_2m[0];
 
       const message = this.getSurvivalMessage(humidity);
       const dateTemp = new Date(date);
       dateTemp.setFullYear(dateTemp.getFullYear() + 62);
       const dateApocalypse = dateTemp.toISOString().split('T')[0];
+
       return {
         humidity: `${humidity}`,
         message,
